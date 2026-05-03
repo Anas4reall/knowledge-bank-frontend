@@ -312,7 +312,7 @@ function createFileCard(file, showMajorBadge) {
                 ` : ''}
                 <div class="file-actions">
                     <span class="file-badge">${file.type} | ${fakeSize} MB</span>
-                    <a href="http://localhost:5000${file.fileUrl}" target="_blank" class="download-link">تحميل الملف</a>
+                    <a href="${API_URL}${file.fileUrl}" target="_blank" class="download-link">تحميل الملف</a>
                 </div>
             </div>
         </div>
