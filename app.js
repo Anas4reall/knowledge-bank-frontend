@@ -1,5 +1,5 @@
 // --- Configuration ---
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://knowledge-bank-api.onrender.com';
 
 // --- Data ---
 const MAJORS = [
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function checkAuthStatus() {
     const token = localStorage.getItem('knowledgeBankToken');
     const userStr = localStorage.getItem('knowledgeBankUser');
-    
+
     if (token && userStr) {
         currentState.token = token;
         currentState.user = JSON.parse(userStr);
@@ -117,7 +117,7 @@ async function fetchFiles() {
         const response = await fetch(url);
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
-        
+
         currentState.files = data;
         updateUI();
     } catch (error) {
@@ -145,7 +145,7 @@ async function uploadFile(formData) {
         const data = await response.json();
 
         if (!response.ok) throw new Error(data.error || 'Upload failed');
-        
+
         closeUploadModal();
         showToast("تم رفع الملف بنجاح!");
         uploadForm.reset();
@@ -169,7 +169,7 @@ async function handleAuth(e) {
     e.preventDefault();
     const username = document.getElementById('authUsername').value;
     const password = document.getElementById('authPassword').value;
-    
+
     submitAuthBtn.disabled = true;
     submitAuthBtn.innerText = 'جاري المعالجة...';
 
@@ -248,7 +248,7 @@ function renderLatestFiles() {
 
 function renderBrowserView() {
     const major = MAJORS.find(m => m.id === currentState.selectedMajor);
-    
+
     if (currentState.searchQuery) {
         breadcrumbCurrent.textContent = "نتائج البحث";
         browserTitle.innerHTML = `نتائج: "${currentState.searchQuery}"`;
@@ -285,7 +285,7 @@ function createFileCard(file, showMajorBadge) {
     const major = MAJORS.find(m => m.id === file.majorId);
     const typeClass = file.type === 'PDF' ? 'type-pdf' : file.type.startsWith('DOC') ? 'type-doc' : 'type-zip';
     const fakeSize = Math.floor(Math.random() * 10) + 1;
-    
+
     return `
         <div class="file-card ${typeClass}">
             <div class="file-type-accent"></div>
