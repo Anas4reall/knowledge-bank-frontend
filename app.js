@@ -1,5 +1,5 @@
 // --- Configuration ---
-const API_URL = 'https://knowledge-bank-api.onrender.com';
+const API_URL = 'https://knowledge-bank-api.onrender.com/api';
 
 // --- Data ---
 const MAJORS = [
