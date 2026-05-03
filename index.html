@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بنك المعرفة - كلية تكنولوجيا المعلومات</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 text-slate-900 transition-colors duration-300">
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container navbar-content">
+            <!-- Logo & Title -->
+            <div class="logo-container" onclick="goHome()">
+                <div class="logo-icon shadow-blue">
+                    <i data-lucide="book-open" class="icon-white"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="title">بنك المعرفة</span>
+                    <span class="subtitle">كلية تكنولوجيا المعلومات</span>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions-container">
+                <button id="darkModeToggle" class="icon-btn" aria-label="Toggle Dark Mode">
+                    <i data-lucide="moon" id="moonIcon"></i>
+                    <i data-lucide="sun" id="sunIcon" style="display:none;"></i>
+                </button>
+                
+                <!-- Logged Out State -->
+                <div id="loggedOutState" style="display:flex; gap: 0.5rem;">
+                    <button id="openAuthBtn" class="primary-btn">
+                        <i data-lucide="user"></i>
+                        <span>تسجيل الدخول</span>
+                    </button>
+                </div>
+
+                <!-- Logged In State -->
+                <div id="loggedInState" style="display:none; align-items:center; gap: 0.75rem;">
+                    <span id="welcomeUserName" style="font-weight: bold; font-size: 0.875rem;"></span>
+                    <button id="openUploadBtn" class="upload-btn primary-btn">
+                        <i data-lucide="upload-cloud"></i>
+                        <span>رفع ملخص</span>
+                    </button>
+                    <button id="logoutBtn" class="icon-btn text-red-500" aria-label="تسجيل الخروج">
+                        <i data-lucide="log-out"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Home View -->
+        <div id="homeView" class="view-section active">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-bg"></div>
+                <div class="container text-center">
+                    <h1 class="hero-title">
+                        المنصة الموحدة لتبادل <span class="text-blue">المصادر التعليمية</span>
+                    </h1>
+                    <p class="hero-desc">
+                        مكانك الأمثل للوصول لملخصات، نماذج، وأكواد تخصصات كلية تكنولوجيا المعلومات وعلوم الحاسوب بجامعة إقليم سبأ.
+                    </p>
+                    
+                    <!-- Search Bar -->
+                    <div class="search-container">
+                        <div class="search-icon-wrapper">
+                            <i data-lucide="search" class="search-icon"></i>
+                        </div>
+                        <input type="text" id="mainSearchInput" class="search-input" placeholder="ابحث عن مادة، ملخص، أو كود...">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Majors Grid -->
+            <section class="majors-section">
+                <div class="container">
+                    <h2 class="section-title">
+                        <i data-lucide="filter" class="text-blue"></i>
+                        تصفح حسب التخصص
+                    </h2>
+                    <div class="grid grid-cols-4" id="majorsGrid">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Latest Uploads -->
+            <section class="latest-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i data-lucide="star" class="text-yellow icon-filled"></i>
+                            أحدث الإضافات
+                        </h2>
+                    </div>
+                    <div class="grid grid-cols-4" id="latestFilesGrid">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Browser / Search Results View -->
+        <div id="browserView" class="view-section">
+            <div class="container py-8">
+                <!-- Breadcrumbs -->
+                <div class="breadcrumbs">
+                    <button onclick="goHome()" class="breadcrumb-link">
+                        <i data-lucide="home"></i> الرئيسية
+                    </button>
+                    <i data-lucide="chevron-left" class="breadcrumb-separator"></i>
+                    <span id="breadcrumbCurrent" class="breadcrumb-current">التخصص</span>
+                </div>
+
+                <!-- Major Header / Search Bar -->
+                <div class="browser-header">
+                    <h1 id="browserTitle" class="browser-title">
+                        <!-- Populated via JS -->
+                    </h1>
+                    <div class="browser-search-wrapper">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" id="browserSearchInput" class="browser-search-input" placeholder="بحث...">
+                    </div>
+                </div>
+
+                <!-- Levels Tabs -->
+                <div class="levels-container" id="levelsTabsContainer">
+                    <div class="levels-tabs" id="levelsTabs">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- Files Grid -->
+                <div id="browserFilesGrid" class="grid grid-cols-4">
+                    <!-- Populated via JS -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <div class="empty-icon-wrapper">
+                        <i data-lucide="alert-circle" class="empty-icon"></i>
+                    </div>
+                    <h3 class="empty-title">لا توجد ملفات متطابقة</h3>
+                    <p class="empty-desc">
+                        لم نتمكن من العثور على أي ملفات تطابق معايير البحث الخاصة بك. جرب مصطلحات مختلفة أو قم برفع ملف جديد.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <button id="closeUploadBtn" class="modal-close-btn">
+                <i data-lucide="x"></i>
+            </button>
+
+            <h2 class="modal-title">
+                <i data-lucide="upload-cloud" class="text-blue"></i>
+                رفع ملخص جديد
+            </h2>
+
+            <form id="uploadForm" class="upload-form">
+                <!-- File Dropzone -->
+                <div class="dropzone" id="dropzone">
+                    <div class="dropzone-icon">
+                        <i data-lucide="upload-cloud"></i>
+                    </div>
+                    <p class="dropzone-text">
+                        اسحب وأفلت الملف هنا أو <span class="text-blue" style="cursor:pointer;" id="browseFilesText">تصفح</span>
+                    </p>
+                    <p class="dropzone-hint">يدعم PDF, DOC, DOCX, ZIP حتى 50 ميغابايت</p>
+                    <input type="file" id="fileInput" name="file" style="display:none;" required>
+                    <div id="selectedFileName" class="selected-file-name" style="margin-top: 10px; font-weight: bold; color: var(--text-blue);"></div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>التخصص</label>
+                        <select id="uploadMajor" name="majorId" required>
+                            <!-- Populated via JS -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>المستوى</label>
+                        <select id="uploadLevel" name="levelId" required>
+                            <!-- Populated via JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>اسم المادة</label>
+                    <input type="text" id="uploadSubject" name="subject" placeholder="مثال: هندسة برمجيات" required>
+                </div>
+
+                <div class="form-group">
+                    <label>اسم الملف / الملاحظة</label>
+                    <input type="text" id="uploadTitle" name="title" placeholder="مثال: ملخص شامل للميدتيرم" required>
+                </div>
+
+                <!-- Hidden Input for Uploader (Mock Auth) -->
+                <input type="hidden" name="uploader" value="مستخدم النظام">
+
+                <button type="submit" class="submit-btn shadow-blue" id="submitUploadBtn">
+                    رفع الملف
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 24rem;">
+            <button id="closeAuthBtn" class="modal-close-btn">
+                <i data-lucide="x"></i>
+            </button>
+
+            <h2 id="authModalTitle" class="modal-title justify-center">
+                <i data-lucide="user" class="text-blue"></i>
+                تسجيل الدخول
+            </h2>
+
+            <form id="authForm" class="upload-form">
+                <div class="form-group">
+                    <label>اسم المستخدم</label>
+                    <input type="text" id="authUsername" placeholder="أدخل اسم المستخدم" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="authPassword" placeholder="أدخل كلمة المرور" required>
+                </div>
+
+                <div id="roleSelectionGroup" class="form-group" style="display:none;">
+                    <label>نوع الحساب</label>
+                    <select id="authRole">
+                        <option value="student">طالب</option>
+                        <option value="admin">مشرف</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn shadow-blue" id="submitAuthBtn">
+                    تسجيل الدخول
+                </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 1rem; font-size: 0.875rem;">
+                <span id="authToggleText">ليس لديك حساب؟</span>
+                <button id="toggleAuthModeBtn" style="background:none; border:none; color:var(--primary-blue); font-weight:bold; cursor:pointer; font-family:inherit;">إنشاء حساب جديد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
